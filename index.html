@@ -1,0 +1,51 @@
+<html>
+  <body>
+    <ol id="mom">
+      <li> 1
+        <ol>
+          <li>1.1</li>
+        </ol>
+      </li>
+      <li> 2
+        <ol>
+          <li> 2.1
+            <ol>
+              <li> 2.1.2 </li>
+            </ol>
+          </li>
+          <li> 2.2 </li>
+        </ol>
+      </li>
+    </ol>
+    
+    <script>
+     function olToObject(k) {
+        var b = []
+        var rnt = {}
+        if (k.nodeName === 'LI') {
+          rnt['text'] = k.firstChild.data.trim()
+        }
+        if (k.childNodes.length > 1) {
+          for (var i = 0; i < k.childNodes.length; i++) {
+            if (k.childNodes[i].nodeName !== '#text') {
+              b.push(olToObject(k.childNodes[i]))
+            }
+          }
+          rnt['child'] = b.length === 1 ? b[0] : b
+          if (!rnt['text']) {
+            return b
+          }
+        }
+        return rnt
+      }
+     
+      var r = olToObject(document.getElementById('mom'))
+	    document.getElementsByTagName('body')[0].innerHTML += JSON.stringify(r)
+
+      console.log(r)
+
+    </script>
+  </body>
+</html>
+
+
